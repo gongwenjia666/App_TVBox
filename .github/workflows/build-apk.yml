@@ -54,11 +54,19 @@ jobs:
       - name: Prepare local.properties
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
+      # runner 镜像里 sdkmanager 不在 PATH，得从 cmdline-tools 里找
       - name: Accept licenses & install SDK
         run: |
           set -e
-          yes | sdkmanager --licenses > /dev/null 2>&1 || true
-          sdkmanager --install "platforms;android-37" "build-tools;37.0.0" "platform-tools"
+          SDKM=$(command -v sdkmanager || true)
+          if [ ! -x "$SDKM" ]; then
+            SDKM=$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f 2>/dev/null | head -1)
+          fi
+          echo "sdkmanager = $SDKM"
+          yes | "$SDKM" --sdk_root="$ANDROID_HOME" --licenses > /dev/null 2>&1 || true
+          "$SDKM" --sdk_root="$ANDROID_HOME" --install "platforms;android-37" "build-tools;37.0.0" "platform-tools"
+          echo "已安装 platform: $(ls "$ANDROID_HOME/platforms" | tr '\n' ' ')"
+          echo "已安装 build-tools: $(ls "$ANDROID_HOME/build-tools" | tr '\n' ' ')"
 
       - name: Generate throwaway keystore
         run: |
