@@ -54,33 +54,13 @@ jobs:
       - name: Prepare local.properties
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
-      # runner 镜像里 sdkmanager 不在 PATH；API 37 属于预览通道，需要按 channel 逐个试
-      - name: Install SDK
+      # runner 镜像已自带 build-tools 37.0.0 与 platforms/android-37.x，先去探底再决定要不要装
+      - name: Inspect SDK
         run: |
-          set -e
-          SDKM=$(command -v sdkmanager || true)
-          if [ ! -x "$SDKM" ]; then
-            SDKM=$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f 2>/dev/null | head -1)
-          fi
-          echo "sdkmanager = $SDKM"
-          yes | "$SDKM" --sdk_root="$ANDROID_HOME" --licenses > /dev/null 2>&1 || true
-          echo "现有 platforms: $(ls "$ANDROID_HOME/platforms" 2>/dev/null | tr '\n' ' ')"
-          echo "现有 build-tools: $(ls "$ANDROID_HOME/build-tools" 2>/dev/null | tr '\n' ' ')"
-          if [ -d "$ANDROID_HOME/platforms/android-37" ] && [ -d "$ANDROID_HOME/build-tools/37.0.0" ]; then
-            echo "已自带 API 37，跳过安装"
-            exit 0
-          fi
-          for CH in 0 1 2 3; do
-            echo "=== 尝试 channel $CH ==="
-            if "$SDKM" --sdk_root="$ANDROID_HOME" --channel=$CH --install "platforms;android-37" "build-tools;37.0.0" > /tmp/sdk.log 2>&1; then
-              echo "channel $CH 安装成功"; tail -4 /tmp/sdk.log
-              OK=1; break
-            fi
-            echo "channel $CH 失败:"; tail -3 /tmp/sdk.log
-          done
-          echo "最终 platforms: $(ls "$ANDROID_HOME/platforms" 2>/dev/null | tr '\n' ' ')"
-          echo "最终 build-tools: $(ls "$ANDROID_HOME/build-tools" 2>/dev/null | tr '\n' ' ')"
-          [ "${OK:-0}" = "1" ]
+          echo "platforms: $(ls "$ANDROID_HOME/platforms" 2>/dev/null | tr '\n' ' ')"
+          echo "build-tools: $(ls "$ANDROID_HOME/build-tools" 2>/dev/null | tr '\n' ' ')"
+          echo "ndk: $(ls "$ANDROID_HOME/ndk" 2>/dev/null | tr '\n' ' ')"
+          echo "cmake: $(ls "$ANDROID_HOME/cmake" 2>/dev/null | tr '\n' ' ')"
 
       - name: Generate throwaway keystore
         run: |
