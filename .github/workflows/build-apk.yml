@@ -22,7 +22,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 180
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,19 +61,33 @@ jobs:
           echo "ndk: $(ls "$ANDROID_HOME/ndk" 2>/dev/null | tr '\n' ' ')"
           echo "cmake: $(ls "$ANDROID_HOME/cmake" 2>/dev/null | tr '\n' ' ')"
 
-      # lib-*.aar（Media3 + mpv/ffmpeg 原生扩展）被 .gitignore 排除，仓库里没有；
-      # 从公开的 ci-libs 发布物取一份补齐
-      - name: Fetch lib-*.aar
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # 仓库里没有 app/libs/lib-*.aar（作者本地私有构建产物），但它们全部来自公开的
+      # FongMi/media 定制分支 release-1.11.0-fongmi（含 jniLibs 预编译 .so），这里自己编一份
+      - name: Build media3 AARs
         run: |
           set -e
-          mkdir -p app/libs
-          gh release download ci-libs --repo lixiangyong9131/TV --dir app/libs --pattern 'lib-*.aar' --clobber
-          ls -1 app/libs | head -30
-          for f in app/libs/lib-mpvplayer-release.aar app/libs/lib-decoder-ffmpeg-release.aar; do
+          git clone --depth 1 --branch release-1.11.0-fongmi https://github.com/FongMi/media.git "$RUNNER_TEMP/media"
+          cd "$RUNNER_TEMP/media"
+          MODULES="lib-common lib-container lib-database lib-datasource lib-datasource-okhttp lib-datasource-rtmp lib-decoder lib-decoder-ffmpeg lib-decoder-mpegh lib-effect lib-exoplayer lib-exoplayer-dash lib-exoplayer-hls lib-exoplayer-rtsp lib-exoplayer-smoothstreaming lib-extractor lib-session lib-ui lib-ui-danmaku lib-mpvplayer"
+          TASKS=""
+          for m in $MODULES; do TASKS="$TASKS :$m:assembleRelease"; done
+          chmod +x gradlew
+          ./gradlew $TASKS -x lint --no-daemon --max-workers=4
+          mkdir -p "$GITHUB_WORKSPACE/app/libs"
+          for aar in libraries/*/buildout/outputs/aar/*.aar; do
+            mod=$(echo "$aar" | cut -d/ -f2 | tr '_' '-')
+            cp -v "$aar" "$GITHUB_WORKSPACE/app/libs/lib-${mod}-release.aar"
+          done
+          ls -lh "$GITHUB_WORKSPACE/app/libs"
+
+      - name: Check AAR
+        run: |
+          set -e
+          cd app/libs
+          for f in lib-mpvplayer-release.aar lib-decoder-ffmpeg-release.aar lib-common-release.aar lib-exoplayer-release.aar; do
             [ -f "$f" ] || { echo "missing $f"; exit 1; }
           done
+          ls -1 *.aar | wc -l
 
       - name: Generate throwaway keystore
         run: |
@@ -90,8 +104,7 @@ jobs:
           } >> local.properties
           cat local.properties
 
-      # ci-libs 里的 lib-*.aar 是旧版“分裂 ffmpeg”布局，新版 VerifyMpvNativeTask 会判定不合格；
-      # 该任务是作者的质量闸门，不影响产物打包，这里跳过
+      # 原生库质量闸门先跳过，等 AAR 版本对上了再看是否需要
       - name: Build ${{ inputs.task }}
         run: |
           chmod +x gradlew
