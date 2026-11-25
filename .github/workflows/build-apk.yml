@@ -8,10 +8,6 @@ on:
         description: 'Gradle 任务（默认 TV release）'
         required: true
         default: ':app:assembleLeanbackRelease'
-  push:
-    tags:
-      - 'v*'
-
 permissions:
   contents: read
 
@@ -50,7 +46,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # 工程里的 app/build.gradle 会硬读 rootProject/local.properties，必须先造出来
+      # app/build.gradle 硬读 rootProject/local.properties
       - name: Prepare local.properties
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
@@ -61,8 +57,7 @@ jobs:
           echo "ndk: $(ls "$ANDROID_HOME/ndk" 2>/dev/null | tr '\n' ' ')"
           echo "cmake: $(ls "$ANDROID_HOME/cmake" 2>/dev/null | tr '\n' ' ')"
 
-      # 仓库里没有 app/libs/lib-*.aar（作者本地私有构建产物），但它们全部来自公开的
-      # FongMi/media 定制分支 release-1.11.0-fongmi（含 jniLibs 预编译 .so），这里自己编一份
+      # app/libs/lib-*.aar 不入库；从公开的 FongMi/media 定制分支现场编译
       - name: Build media3 AARs
         run: |
           set -e
@@ -104,7 +99,6 @@ jobs:
           } >> local.properties
           cat local.properties
 
-      # 原生库质量闸门先跳过，等 AAR 版本对上了再看是否需要
       - name: Build ${{ inputs.task }}
         run: |
           chmod +x gradlew
