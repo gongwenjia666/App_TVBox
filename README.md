@@ -4,6 +4,8 @@ Android TV、手机、平板都能用的播放客户端，基于 FongMi/TV 5.9.0
 
 > 本仓库是个人二次打包分发，**非官方版本**，与上游作者无关。上游项目：[FongMi/TV](https://github.com/FongMi/TV)（GPL-3.0）。
 
+在线文档：[G.影视 使用与开发指南](https://gongwenjia666.github.io/App_TVBox/)（爬虫接入、配置字典、本地 API、播放指令）
+
 ## 下载
 
 前往 [Releases](../../releases/latest) 页面按机型选择：
