@@ -1,8 +1,10 @@
-# 影視TV 使用與開發指南
+# 文档站（website/）
 
-六頁靜態文件站：首頁、爬蟲介接、配置字典、本地 API、App 功能及播放指令。Next.js 在建置時產生 HTML、CSS、JavaScript；正式網站不需要 Node.js、Worker、資料庫或 ChatGPT 登入。搜尋、篩選、三語言 Demo 切換與複製均在瀏覽器執行。
+G.影视 的静态文档站：首页、爬虫接入、配置字典、本地 API、App 功能、播放指令，共六页。Next.js 在构建时生成 HTML、CSS、JavaScript，成品是纯静态文件，部署后不需要 Node.js、Worker、数据库或登录。搜索、筛选、多语言示例切换与复制都在浏览器里完成。
 
-## 本機使用
+文档内容基于上游 FongMi/TV 的公开指南整理，接口名、字段与功能说明与上游一致。
+
+## 本地运行
 
 需要 Node.js 22.18+（22.x）或 Node.js 24+。
 
@@ -12,7 +14,7 @@ npm ci
 npm run dev
 ```
 
-驗證與預覽真正的靜態輸出：
+验证并预览真正的静态产物：
 
 ```sh
 npm run lint
@@ -20,43 +22,43 @@ npm run build
 npm start
 ```
 
-`npm run build` 會建置靜態網站並執行 TypeScript 型別檢查。`npm start` 依 `.next/routes-manifest.json` 的建置路徑提供 `out/` 內的檔案，預設網址為 `http://localhost:3000/`；它不是正式部署所需的伺服器。請透過 HTTP 預覽，不要直接雙擊 HTML。
+`npm run build` 会构建静态站点并执行 TypeScript 类型检查。`npm start` 按 `.next/routes-manifest.json` 的构建路径提供 `out/` 里的文件，默认地址为 `http://localhost:3000/`；它不是正式部署用的服务器。请通过 HTTP 预览，不要直接双击 HTML。
 
-不需要完整建置時，可選擇執行 `npm run typecheck` 快速檢查型別；此指令執行 `next typegen` 與 `tsc --noEmit`，不產生靜態網站輸出。
+只想检查类型、不做完整构建时，用 `npm run typecheck`；它会执行 `next typegen` 与 `tsc --noEmit`，不产生静态输出。
 
 ## GitHub Pages
 
-網站原始碼位於 `FongMi/TV` 的 `website/`，正式網址為 [影視TV 使用與開發指南](https://fongmi.github.io/TV/)。不需要另外建立網站儲存庫。
+站点源码在本仓库 `website/` 目录，用 Actions 自动部署，不需要另建仓库。
 
-1. 在 **Settings → Pages → Build and deployment → Source** 選擇 **GitHub Actions**。
-2. 將 `website/` 或 `.github/workflows/pages.yml` 的更新推送至 `fongmi`，或在 Actions 手動執行 **Publish website to GitHub Pages**。
-3. 流程在 `website/` 安裝依賴、執行 Lint、型別檢查與靜態建置，再發布 `website/out/`。
+1. 在 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
+2. 把 `website/` 的改动推送到 `fongmi` 分支，或在 Actions 里手动运行 **Publish website to GitHub Pages**。
+3. 流程会安装依赖、执行 Lint、类型检查与静态构建，然后发布 `website/out/`。
 
-網站輸出不含 Android 專案、`node_modules` 或本機環境檔；只修改 App 程式碼不會觸發網站發布。
+构建产物不包含 Android 工程、`node_modules` 或本地环境文件；只改 App 代码不会触发站点发布。
 
-流程從 `actions/configure-pages` 取得正式網址，透過 `SITE_URL` 統一設定頁面路徑、Logo 與分享預覽圖，支援帳號首頁、專案子目錄及已在 Pages 設定的自訂網域。自訂網域仍須先完成 GitHub Pages 網域設定。
+流程通过 `actions/configure-pages` 取得部署地址，并用 `SITE_URL` 统一设置页面路径、Logo 与分享预览图，支持账号首页、项目子目录以及已在 Pages 里配置的自定义域名。
 
-本機建置不會自動推送或發布；推送文件更新前，請先確認差異只包含預期公開的內容。
+本地构建不会自动推送或发布；推送文档改动前，先确认差异里只有可以公开的内容。
 
-### 指定部署網址
+### 指定部署地址
 
-PowerShell 子目錄測試：
+PowerShell 子目录测试：
 
 ```powershell
-$env:SITE_URL = 'https://fongmi.github.io/TV/'
+$env:SITE_URL = 'https://gongwenjia666.github.io/App_TVBox/'
 npm run build
 npm start
 ```
 
-預覽網址此時為 `http://localhost:3000/TV/`。`SITE_URL` 是建置時設定，`npm start` 會自動使用建置結果的路徑，不需要再次設定。更換網域或路徑需重新建置並重新啟動預覽。完成後以 `Remove-Item Env:SITE_URL` 清除設定。
+此时预览地址为 `http://localhost:3000/App_TVBox/`。`SITE_URL` 是构建期变量，`npm start` 会自动沿用构建结果里的路径，无需再设。更换域名或路径要重新构建并重启预览。测完后用 `Remove-Item Env:SITE_URL` 清除。
 
-## 維護位置
+## 目录说明
 
-- `app/`：頁面、共用元件、文件欄位及搜尋索引。
-- `app/globals.css`：樣式與響應式規則。
-- `public/`：SVG Logo、品牌預覽圖及 `.nojekyll`。
-- `../.github/workflows/pages.yml`：儲存庫根目錄的 GitHub Pages 建置與發布。
-- `app/local/page.tsx`、`app/local-api.ts`：由舊 `docs/LOCAL.md` 整合、核對原始碼後的本地 HTTP API 文件與範例。
-- `app/commands/page.tsx`、`app/playback-commands.ts`：給使用者的 Exo 播放指令、按鈕設定與範例；依 `ExoCommand` 核對支援語法、數值範圍與限制。
+- `app/`：页面、共用组件、文档字段与搜索索引。
+- `app/globals.css`：样式与响应式规则。
+- `public/`：SVG Logo、社交预览图与 `.nojekyll`。
+- `../.github/workflows/pages.yml`：仓库根目录的 Pages 构建与发布流程。
+- `app/local/page.tsx`、`app/local-api.ts`：本地 HTTP API 文档与示例，按源码逐项核对过。
+- `app/commands/page.tsx`、`app/playback-commands.ts`：Exo 播放指令、按钮设置与示例，按 `ExoCommand` 核对过支持语法、数值范围与限制。
 
-參考：[Next.js 靜態輸出](https://nextjs.org/docs/app/guides/static-exports)、[GitHub Pages 自訂流程](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
+参考：[Next.js 静态导出](https://nextjs.org/docs/app/guides/static-exports)、[GitHub Pages 自定义流程](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。

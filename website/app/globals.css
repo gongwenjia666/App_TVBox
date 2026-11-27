@@ -1260,7 +1260,7 @@ footer {
     color: var(--quiet);
   }
   .field-table td:last-child::before {
-    content: "預設：";
+    content: "缺省：";
   }
   .type-strip,
   .delimiter-grid {

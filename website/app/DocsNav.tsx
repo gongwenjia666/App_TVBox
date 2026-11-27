@@ -12,7 +12,7 @@ export function DocsNav({
 
   return (
     <aside className="docs-nav">
-      <b>本頁導覽</b>
+      <b>本页导览</b>
       <button
         className="docs-nav-toggle"
         type="button"
@@ -20,13 +20,13 @@ export function DocsNav({
         aria-controls={id}
         onClick={() => setExpanded(!expanded)}
       >
-        本頁導覽
-        <span aria-hidden="true">{expanded ? "收合 −" : "展開 +"}</span>
+        本页导览
+        <span aria-hidden="true">{expanded ? "收合 −" : "展开 +"}</span>
       </button>
       <nav
         id={id}
         className="docs-nav-links"
-        aria-label="本頁導覽"
+        aria-label="本页导览"
         data-expanded={expanded}
       >
         {items.map(([anchor, title]) => (

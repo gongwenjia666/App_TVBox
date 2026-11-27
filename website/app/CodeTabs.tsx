@@ -18,7 +18,7 @@ export function CodeTabs({ samples }: { samples: CodeSample[] }) {
   return (
     <div className="code-tabs">
       <div className="code-tabs-head">
-        <div role="tablist" aria-label="Demo 語言">
+        <div role="tablist" aria-label="Demo 语言">
           {samples.map((item, index) => (
             <button
               type="button"

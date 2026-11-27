@@ -15,14 +15,14 @@ const jetbrains = JetBrains_Mono({
 });
 
 const previewUrl = new URL(assetPath("/og.png"), siteUrl.origin).href;
-const description = "影視TV 的爬蟲介接、配置字典與 App 功能指南。";
+const description = "G.影视 的爬虫介接、配置字典与 App 功能指南。";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
-  title: { default: "影視TV 使用與開發指南", template: "%s · 影視TV" },
+  title: { default: "G.影视 使用与开发指南", template: "%s · G.影视" },
   description,
   openGraph: {
-    title: "影視TV 使用與開發指南",
+    title: "G.影视 使用与开发指南",
     description,
     type: "website",
     images: [
@@ -30,13 +30,13 @@ export const metadata: Metadata = {
         url: previewUrl,
         width: 1730,
         height: 909,
-        alt: "影視TV 使用與開發指南",
+        alt: "G.影视 使用与开发指南",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "影視TV 使用與開發指南",
+    title: "G.影视 使用与开发指南",
     description,
     images: [previewUrl],
   },
@@ -48,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-Hant">
+    <html lang="zh-CN">
       <body className={`${plex.variable} ${jetbrains.variable}`}>
         {children}
       </body>

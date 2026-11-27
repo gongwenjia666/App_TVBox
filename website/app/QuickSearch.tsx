@@ -36,10 +36,10 @@ export function QuickSearch() {
           ref={inputRef}
           id="doc-search"
           type="search"
-          aria-label="搜尋文件"
+          aria-label="搜索文档"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="搜尋 API、欄位或功能…"
+          placeholder="搜索 API、字段或功能…"
         />
         <kbd aria-hidden="true">/</kbd>
       </label>
@@ -55,7 +55,7 @@ export function QuickSearch() {
             </Link>
           ))
         ) : (
-          <p>找不到符合的條目，試試「Site」、「Live」或「Result」。</p>
+          <p>找不到符合的条目，试试「Site」、「Live」或「Result」。</p>
         )}
       </div>
     </div>

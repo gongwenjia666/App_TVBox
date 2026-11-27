@@ -6,14 +6,14 @@ import { features } from "../feature-content";
 export const metadata: Metadata = {
   title: "App 功能",
   description:
-    "影視TV 的電視與手機介面、Android Auto、獨立模組、爬蟲測試、遠端控制與檔案傳輸功能。",
+    "G.影视 的电视与手机接口、Android Auto、独立模块、爬虫测试、远程控制与文件传输功能。",
 };
 
 export default function FeaturesPage() {
   return (
     <DocsLayout
-      title="認識影視TV"
-      lead="為 Android 電視與手機設計，加入自己的來源即可開始使用。"
+      title="认识 G.影视"
+      lead="为 Android 电视与手机设计，加入自己的来源即可开始使用。"
     >
       <div className="wrap feature-page">
         <section className="feature-grid">
@@ -27,10 +27,10 @@ export default function FeaturesPage() {
         </section>
         <section className="start-panel">
           <div>
-            <p className="start-label">自訂播放控制</p>
-            <h2>常用操作，一鍵執行。</h2>
+            <p className="start-label">自订播放控制</p>
+            <h2>常用操作，一键运行。</h2>
             <p>
-              用指令按鈕調整倍速、音量、延遲與影片縮放。
+              用指令按钮调整倍速、音量、延迟与视频缩放。
             </p>
           </div>
           <Link className="button" href="/commands">
@@ -39,10 +39,10 @@ export default function FeaturesPage() {
         </section>
         <section className="start-panel">
           <div>
-            <p className="start-label">開始使用</p>
-            <h2>第一次使用，從配置開始。</h2>
+            <p className="start-label">开始使用</p>
+            <h2>第一次使用，从配置开始。</h2>
             <p>
-              加入點播或直播配置，載入自己的站點與頻道。
+              加入点播或直播配置，加载自己的站点与频道。
             </p>
           </div>
           <Link className="button primary" href="/config">

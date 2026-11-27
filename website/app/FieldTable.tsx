@@ -18,21 +18,21 @@ export function FieldTable({
       <label className="field-search">
         <SearchIcon />
         <input
-          aria-label={`搜尋 ${label} 欄位`}
-          placeholder={`搜尋 ${label} 欄位…`}
+          aria-label={`搜索 ${label} 字段`}
+          placeholder={`搜索 ${label} 字段…`}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
-        <b aria-live="polite">{visible.length} 欄位</b>
+        <b aria-live="polite">{visible.length} 字段</b>
       </label>
       <div className="table-scroll">
-        <table className="field-table" aria-label={`${label} 欄位說明`}>
+        <table className="field-table" aria-label={`${label} 字段说明`}>
           <thead>
             <tr>
-              <th scope="col">欄位</th>
-              <th scope="col">類型</th>
+              <th scope="col">字段</th>
+              <th scope="col">类型</th>
               <th scope="col">用途</th>
-              <th scope="col">預設</th>
+              <th scope="col">缺省</th>
             </tr>
           </thead>
           <tbody>
@@ -52,7 +52,7 @@ export function FieldTable({
       </div>
       {visible.length === 0 && (
         <p className="field-empty" role="status">
-          找不到符合的欄位，請換個關鍵字。
+          找不到符合的字段，请换个关键字。
         </p>
       )}
     </div>

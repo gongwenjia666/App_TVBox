@@ -12,7 +12,7 @@ import {
 export const metadata: Metadata = {
   title: "播放指令",
   description:
-    "依功能查找 Exo 與 mpv 支援的播放指令：播放、音量、音軌、字幕、跳轉、章節與畫面調整。",
+    "依功能查找 Exo 与 mpv 支持的播放指令：播放、音量、音轨、字幕、跳转、章节与画面调整。",
 };
 
 function CommandTable({ title, commands }: { title: string; commands: readonly PlaybackCommand[] }) {
@@ -20,7 +20,7 @@ function CommandTable({ title, commands }: { title: string; commands: readonly P
     <div className="table-scroll">
       <table className="method-table command-examples" aria-label={title + "指令"}>
         <thead>
-          <tr><th scope="col">功能</th><th scope="col">指令</th><th scope="col">說明</th></tr>
+          <tr><th scope="col">功能</th><th scope="col">指令</th><th scope="col">说明</th></tr>
         </thead>
         <tbody>
           {commands.map(([name, command, description]) => (
@@ -32,7 +32,7 @@ function CommandTable({ title, commands }: { title: string; commands: readonly P
                   <CopyButton text={command} label={name + "指令"} />
                 </div>
               </td>
-              <td data-label="說明">{description}</td>
+              <td data-label="说明">{description}</td>
             </tr>
           ))}
         </tbody>
@@ -43,33 +43,33 @@ function CommandTable({ title, commands }: { title: string; commands: readonly P
 
 export default function CommandsPage() {
   return (
-    <DocsLayout title="播放指令" lead="依功能找到需要的指令，複製後存成播放按鈕。">
+    <DocsLayout title="播放指令" lead="依功能找到需要的指令，拷贝后存成播放按钮。">
       <div className="docs-layout wrap">
         <DocsNav items={playbackSections} />
         <div className="docs-content">
           <section id="start">
-            <h2>新增指令按鈕</h2>
+            <h2>添加指令按钮</h2>
             <ol>
-              <li>播放時，開啟控制列的「指令」。</li>
-              <li>按「新增」，填入名稱、貼上指令。</li>
-              <li>儲存後，按一下即可執行。</li>
+              <li>播放时，打开控制列的「指令」。</li>
+              <li>按「添加」，填入名称、粘贴指令。</li>
+              <li>保存后，按一下即可运行。</li>
             </ol>
             <p>
-              mpv：進入「腳本」→「按鈕」→「新增」→「新增指令按鈕」。
-              每個按鈕填一條指令，不需加上 <code>mp.commandv(...)</code>。
+              mpv：进入「脚本」→「按钮」→「添加」→「添加指令按钮」。
+              每个按钮填一条指令，不需加上 <code>mp.commandv(...)</code>。
             </p>
-            <p>各區塊會標示支援的播放器；表內指令可直接複製。</p>
+            <p>各区块会标示支持的播放器；表内指令可直接拷贝。</p>
           </section>
 
           {playbackCommandGroups.map((group) => (
             <section id={group.id} key={group.id}>
               {group.id === "playback" && <><span id="examples" /><span id="properties" /></>}
               <h2>{group.title}</h2>
-              <p><b>支援：{group.support}。</b> {group.description}</p>
+              <p><b>支持：{group.support}。</b> {group.description}</p>
               <CommandTable title={group.title} commands={group.commands} />
               {playbackProperties.filter((property) => group.properties.includes(property.name)).map((property) => (
                 <p id={property.name} key={property.name}>
-                  <code>{property.name}</code>：{property.values}。支援 {property.modes.join("、")}。
+                  <code>{property.name}</code>：{property.values}。支持 {property.modes.join("、")}。
                   {property.description}
                 </p>
               ))}
@@ -78,33 +78,33 @@ export default function CommandsPage() {
           ))}
 
           <section id="cycle-values">
-            <h2>輪切語法</h2>
+            <h2>轮切语法</h2>
             <p>
-              <code>cycle-values 屬性 值1 值2</code> 依目前值輪切，末項後回到首項。
-              Exo 支援各區塊列出的共用屬性；目前值不在清單時，從首項開始。
+              <code>cycle-values 属性 值1 值2</code> 依目前值轮切，末项后回到首项。
+              Exo 支持各区块列出的共用属性；目前值不在清单时，从首项开始。
             </p>
             <p>
-              加上 <code>!reverse</code> 反向切換；目前值不在清單時，從末項開始。
+              加上 <code>!reverse</code> 反向切换；目前值不在清单时，从末项开始。
             </p>
-            <CodeBlock label="指令" path="反向倍速輪切">
+            <CodeBlock label="指令" path="反向倍速轮切">
               {"cycle-values !reverse speed 1 1.25 1.5 2"}
             </CodeBlock>
             <p>
-              Exo 會先檢查整份清單，任一值無效就不執行。
-              Exo 的 <code>cycle</code> 支援 <code>pause</code>、<code>aid</code> 與 <code>audio</code>。
-              音軌可加上 <code>up</code> 或 <code>down</code> 指定方向。屬性名稱請用小寫。
+              Exo 会先检查整份清单，任一值无效就不运行。
+              Exo 的 <code>cycle</code> 支持 <code>pause</code>、<code>aid</code> 与 <code>audio</code>。
+              音轨可加上 <code>up</code> 或 <code>down</code> 指定方向。属性名称请用小写。
             </p>
           </section>
 
           <section id="limits">
             <h2>使用限制</h2>
             <div className="callout">
-              <b>功能取決於目前影片</b>
-              <span>未播放或影片不支援該操作時，會提示「目前播放無法執行此指令」。</span>
+              <b>功能取决于目前视频</b>
+              <span>未播放或视频不支持该操作时，会提示「目前播放无法运行此指令」。</span>
             </div>
-            <p>Exo 不支援分號串接、額外前綴或 seek 旗標。</p>
-            <p>Lua 外掛與 <code>mpv.conf</code> 僅限 mpv，可自行匯入外掛。</p>
-            <p>共用屬性的數值範圍以 Exo 為準；mpv 依原生規則，音量與循環行為可能不同。</p>
+            <p>Exo 不支持分号串接、额外前缀或 seek 旗标。</p>
+            <p>Lua 插件与 <code>mpv.conf</code> 仅限 mpv，可自行导入插件。</p>
+            <p>共用属性的数值范围以 Exo 为准；mpv 依原生规则，音量与循环行为可能不同。</p>
           </section>
         </div>
       </div>

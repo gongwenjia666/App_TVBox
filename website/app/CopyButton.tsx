@@ -23,26 +23,26 @@ export function CopyButton({ text, label }: { text: string; label: string }) {
         type="button"
         className="copy-button"
         onClick={copy}
-        aria-label={`複製 ${label}`}
+        aria-label={`拷贝 ${label}`}
         aria-busy={status === "copying"}
         disabled={status === "copying"}
       >
         {status === "copying"
           ? "稍候"
           : status === "copied"
-            ? "已複製"
-            : "複製"}
+            ? "已拷贝"
+            : "拷贝"}
       </button>
       <span className="sr-only" role="status" aria-atomic="true">
         {status === "copying"
-          ? `正在複製 ${label}`
+          ? `正在拷贝 ${label}`
           : status === "copied"
-            ? `${label}已複製`
+            ? `${label}已拷贝`
             : ""}
       </span>
       {status === "error" && (
         <span className="copy-error" role="alert">
-          無法存取剪貼簿，請選取程式碼後複製。
+          无法访问剪贴板，请选取代码后拷贝。
         </span>
       )}
     </span>

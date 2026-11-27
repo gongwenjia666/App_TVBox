@@ -37,7 +37,7 @@ export function CodeBlock({
   path?: string;
   children: string;
 }) {
-  const name = `${label}${path ? ` · ${path}` : ""} 範例`;
+  const name = `${label}${path ? ` · ${path}` : ""} 范例`;
   return (
     <div className="code-card" role="region" aria-label={name}>
       <div className="code-card-head">

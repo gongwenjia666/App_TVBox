@@ -6,20 +6,20 @@ import { CodeBlock, Footer, Header } from "./ui";
 
 const tracks = [
   {
-    title: "開發爬蟲",
-    copy: "從 Java、Python 或 QuickJS 範例開始開發。",
+    title: "开发爬虫",
+    copy: "从 Java、Python 或 QuickJS 范例开始开发。",
     href: "/spider",
-    action: "爬蟲介接",
+    action: "爬虫介接",
   },
   {
-    title: "維護配置",
-    copy: "從範例設定點播、直播、節目表與網路。",
+    title: "维护配置",
+    copy: "从范例设置点播、直播、节目表与网络。",
     href: "/config",
     action: "配置字典",
   },
   {
-    title: "使用影視TV",
-    copy: "了解搜尋、播放、字幕與個人記錄。",
+    title: "使用 G.影视",
+    copy: "了解搜索、播放、字幕与个人记录。",
     href: "/features",
     action: "App 功能",
   },
@@ -32,24 +32,24 @@ export default function Home() {
       <main id="main-content">
         <section className="hero wrap">
           <div className="hero-copy">
-            <p className="hero-brand">影視TV</p>
+            <p className="hero-brand">G.影视</p>
             <h1>
-              你的影音體驗，
+              你的影音体验，
               <br />
-              從這裡開始。
+              从这里开始。
             </h1>
             <p className="hero-lead">
-              認識功能、設定來源，開始開發自己的爬蟲。
+              认识功能、设置来源，开始开发自己的爬虫。
             </p>
             <div className="hero-actions">
               <Link className="button primary" href="/config#examples">
-                開始配置 <span aria-hidden="true">→</span>
+                开始配置 <span aria-hidden="true">→</span>
               </Link>
               <Link className="button" href="/features">
-                認識 App
+                认识 App
               </Link>
             </div>
-            <p className="hero-note">Android TV · Android 手機</p>
+            <p className="hero-note">Android TV · Android 手机</p>
           </div>
           <div className="hero-identity" aria-hidden="true">
             <Image
@@ -61,7 +61,7 @@ export default function Home() {
             />
           </div>
         </section>
-        <section className="track-section wrap" aria-label="文件入口">
+        <section className="track-section wrap" aria-label="文档入口">
           <div className="track-grid">
             {tracks.map((track) => (
               <Link className="track-card" href={track.href} key={track.href}>
@@ -77,41 +77,41 @@ export default function Home() {
         </section>
         <section className="search-section wrap">
           <div>
-            <p className="section-label">查找文件</p>
-            <h2>快速找到需要的說明</h2>
-            <p>搜尋 API、配置欄位或 App 功能。</p>
+            <p className="section-label">查找文档</p>
+            <h2>快速找到需要的说明</h2>
+            <p>搜索 API、配置字段或 App 功能。</p>
           </div>
           <QuickSearch />
         </section>
         <section className="contract-section wrap">
           <div>
-            <p className="section-label">開發者起點</p>
-            <h2>三種語言，共用一份資料格式。</h2>
+            <p className="section-label">开发者起点</p>
+            <h2>三种语言，共用一份数据格式。</h2>
             <p>
-              爬蟲取得資料，App 負責呈現。依 Result 格式回傳分類、列表與播放資訊。
+              爬虫取得数据，App 负责呈现。依 Result 格式回传分类、列表与播放信息。
             </p>
           </div>
           <CodeBlock label="JSON / Result" path="homeContent">{`{
   "class": [
-    { "type_id": "movie", "type_name": "電影" }
+    { "type_id": "movie", "type_name": "电影" }
   ],
   "list": [
     {
       "vod_id": "demo-1",
-      "vod_name": "範例項目",
+      "vod_name": "范实例目",
       "vod_pic": "https://example.com/poster.jpg",
       "vod_remarks": "示意"
     }
   ]
 }`}</CodeBlock>
           <Link className="text-link" href="/spider#result">
-            查看完整回傳格式 →
+            查看完整回传格式 →
           </Link>
         </section>
         <section className="source-strip wrap">
           <div>
-            <h2>加入自己的內容來源</h2>
-            <p>複製範例，替換成你的配置。</p>
+            <h2>加入自己的内容来源</h2>
+            <p>拷贝范例，替换成你的配置。</p>
           </div>
           <Link className="button" href="/config">
             查看配置指南 →
